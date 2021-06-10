@@ -1,4 +1,4 @@
-package commons;
+package client.commons;
 
 public class ChatMsg extends Message {
 	private String name;

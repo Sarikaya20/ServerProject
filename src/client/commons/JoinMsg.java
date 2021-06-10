@@ -1,4 +1,4 @@
-package commons;
+package client.commons;
 
 public class JoinMsg extends Message {
 	private String name;

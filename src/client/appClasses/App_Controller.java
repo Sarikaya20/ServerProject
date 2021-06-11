@@ -57,6 +57,10 @@ public class App_Controller extends Controller<App_Model, App_View> {
 				// Parameters of any PropertyChangeListener
 				(observable, oldValue, newValue) -> validateipAdress(newValue));
 	
+        view.usernameTF.textProperty().addListener(
+				// Parameters of any PropertyChangeListener
+				(observable, oldValue, newValue) -> validateUserName(newValue));
+        
         view.portTF.textProperty().addListener((observable, oldValue, newValue) -> validatePort(newValue));
         view.usernameTFLogin.textProperty().addListener((observable, oldValue, newValue) -> validateUserName(newValue));
         // register ourselves to handle window-closing event
@@ -283,7 +287,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	private boolean isValidPort(String i) {
 		int x = Integer.parseInt(i);
 		
-		if (x >= 1 && x <= 100000) {
+		if (x > 50000 && x <= 100000) {
 			return true;
 		}else {
 			return false;
@@ -296,6 +300,9 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.usernameTFLogin.getStyleClass().remove("UserNameNotOk");
 		view.usernameTFLogin.getStyleClass().remove("UserNameOk");
 		
+		view.usernameTF.getStyleClass().remove("UserNameNotOk");
+		view.usernameTF.getStyleClass().remove("UserNameOk");
+		
 		if (isValidName(newValue)) {
 			valid = true;
 		} else {
@@ -307,10 +314,16 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		} else {
 			view.usernameTFLogin.getStyleClass().add("UserNameNotOk");
 		}
+		
+		if (valid) {
+			view.usernameTF.getStyleClass().add("UserNameOk");
+		} else {
+			view.usernameTF.getStyleClass().add("UserNameNotOk");
+		}
 	}
 	    
 	 public boolean isValidName(String s){      
-	     String regex="\"[a-zA-Z0-9\\\\._\\\\-]{3,}\"";      
+	     String regex="^[a-z0-9_-]{5,15}$";      
 	      return s.matches(regex);//returns true if input and regex matches otherwise false;
 	 }
 	

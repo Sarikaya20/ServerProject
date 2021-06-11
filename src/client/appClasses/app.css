@@ -51,3 +51,28 @@
     -fx-base       : rgb(132, 145, 47);
     -fx-background : rgb(225, 228, 203);
 }
+.ipAddressOk {
+  -fx-text-fill: green;
+}
+
+.ipAddressNotOk {
+  -fx-text-fill: red;
+}
+
+.PortOk {
+  -fx-text-fill: green;
+}
+
+.PortNotOk {
+  -fx-text-fill: red;
+}
+
+.UserNameOk {
+  -fx-text-fill: green;
+}
+
+.UserNameNotOk {
+  -fx-text-fill: red;
+}
+
+

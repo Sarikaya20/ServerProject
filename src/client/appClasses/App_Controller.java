@@ -8,11 +8,14 @@ import server.ToDo;
 import client.JavaFX_App_Template;
 import client.ServiceLocator;
 import client.abstractClasses.Controller;
+import javafx.application.Platform;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.WindowEvent;
 
 /**
  * Copyright 2015, FHNW, Prof. Dr. Brad Richards. All rights reserved. This code
@@ -47,6 +50,22 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			}
 		});
 		
+		
+		//Validator
+		
+        view.ipAddressTF.textProperty().addListener(
+				// Parameters of any PropertyChangeListener
+				(observable, oldValue, newValue) -> validateipAdress(newValue));
+	
+        view.portTF.textProperty().addListener((observable, oldValue, newValue) -> validatePort(newValue));
+        view.usernameTFLogin.textProperty().addListener((observable, oldValue, newValue) -> validateUserName(newValue));
+        // register ourselves to handle window-closing event
+        view.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                Platform.exit();
+            }
+        });
 		
 		
 		view.registerButton.setOnAction(this::changeViewRegistration);
@@ -210,6 +229,90 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.changeMainView();
 		
 	}
+	
+	//Methoden für Eingabeprüfung
+	
+	private void validateipAdress(String newValue) {
+		boolean valid = false;
+		
+		view.ipAddressTF.getStyleClass().remove("ipAddressNotOk");
+		view.ipAddressTF.getStyleClass().remove("ipAddressOk");
+		
+		if (isAportNr(newValue)) {
+			valid = true;
+		} else {
+			valid = false;
+		}
+		
+		if (valid) {
+			view.ipAddressTF.getStyleClass().add("ipAddressOk");
+		} else {
+			view.ipAddressTF.getStyleClass().add("ipAddressNotOk");
+		}
+	}
+	
+	private boolean isAportNr(String s) {
+		
+		String regex = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+	            "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+	            "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+	            "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$"; 
+		return s.matches(regex); //returns true if input and regex matches otherwise false
+	}
+	
+	private void validatePort(String NewValue) {
+		
+		boolean valid = false;
+		
+		view.portTF.getStyleClass().remove("PortOk");
+		view.portTF.getStyleClass().remove("PortNotOk");
+		
+		if (isValidPort(NewValue)) {
+			valid = true;
+		} else {
+			valid = false;
+		}
+		
+		if (valid) {
+			view.portTF.getStyleClass().add("PortOk");
+		} else {
+			view.portTF.getStyleClass().add("PortNotOk");
+		}
+	}
+	
+	private boolean isValidPort(String i) {
+		int x = Integer.parseInt(i);
+		
+		if (x >= 1 && x <= 100000) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	private void validateUserName(String newValue) {
+		boolean valid = false;
+		
+		view.usernameTFLogin.getStyleClass().remove("UserNameNotOk");
+		view.usernameTFLogin.getStyleClass().remove("UserNameOk");
+		
+		if (isValidName(newValue)) {
+			valid = true;
+		} else {
+			valid = false;
+		}
+		
+		if (valid) {
+			view.usernameTFLogin.getStyleClass().add("UserNameOk");
+		} else {
+			view.usernameTFLogin.getStyleClass().add("UserNameNotOk");
+		}
+	}
+	    
+	 public boolean isValidName(String s){      
+	     String regex="\"[a-zA-Z0-9\\\\._\\\\-]{3,}\"";      
+	      return s.matches(regex);//returns true if input and regex matches otherwise false;
+	 }
 	
 	private void changeViewRegistration (Event e) {
 		view.changeViewRegistration();

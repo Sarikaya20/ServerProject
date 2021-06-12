@@ -1,6 +1,6 @@
 # ToDoMiniProject
 
-Matthias Allemann / Roger Dörflinger
+Hüseyin Sarikaya, Levi Kammermann, Ivan De Paola
 
 
 Additional Features:

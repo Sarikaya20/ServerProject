@@ -67,12 +67,11 @@
   -fx-text-fill: red;
 }
 
-.UserNameOk {
+.emailOk {
   -fx-text-fill: green;
 }
 
-.UserNameNotOk {
+.emailNotOk {
   -fx-text-fill: red;
 }
-
 

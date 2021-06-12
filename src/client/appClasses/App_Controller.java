@@ -59,10 +59,10 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	
         view.usernameTF.textProperty().addListener(
 				// Parameters of any PropertyChangeListener
-				(observable, oldValue, newValue) -> validateUserName(newValue));
+				(observable, oldValue, newValue) -> validateEmailAddress(newValue));
         
         view.portTF.textProperty().addListener((observable, oldValue, newValue) -> validatePort(newValue));
-        view.usernameTFLogin.textProperty().addListener((observable, oldValue, newValue) -> validateUserName(newValue));
+        view.usernameTFLogin.textProperty().addListener((observable, oldValue, newValue) -> validateEmailAddress(newValue));
         // register ourselves to handle window-closing event
         view.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -294,7 +294,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		}
 	}
 	
-	private void validateUserName(String newValue) {
+	/*private void validateUserName(String newValue) {
 		boolean valid = false;
 		
 		view.usernameTFLogin.getStyleClass().remove("UserNameNotOk");
@@ -326,6 +326,48 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	     String regex="^[a-z0-9_-]{5,15}$";      
 	      return s.matches(regex);//returns true if input and regex matches otherwise false;
 	 }
+	 */
+	
+	private void validateEmailAddress(String newValue) {
+		boolean valid = false;
+
+		// Split on '@': must give us two not-empty parts
+		String[] addressParts = newValue.split("@");
+		if (addressParts.length == 2 && !addressParts[0].isEmpty() && !addressParts[1].isEmpty()) {
+			// We want to split the domain on '.', but split does not give us an empty
+			// string, if the split-character is the last character in the string. So we
+			// first ensure that the string does not end with '.'
+			if (addressParts[1].charAt(addressParts[1].length() - 1) != '.') {
+				// Split domain on '.': must give us at least two parts.
+				// Each part must be at least two characters long
+				String[] domainParts = addressParts[1].split("\\.");
+				if (domainParts.length >= 2) {
+					valid = true;
+					for (String s : domainParts) {
+						if (s.length() < 2) valid = false;
+					}
+				}
+			}
+		}
+
+		view.usernameTF.getStyleClass().remove("emailNotOk");
+		view.usernameTF.getStyleClass().remove("emailOk");
+		if (valid) {
+			view.usernameTF.getStyleClass().add("emailOk");
+		} else {
+			view.usernameTF.getStyleClass().add("emailNotOk");
+		}
+		
+		view.usernameTFLogin.getStyleClass().remove("emailNotOk");
+		view.usernameTFLogin.getStyleClass().remove("emailOk");
+		if (valid) {
+			view.usernameTFLogin.getStyleClass().add("emailOk");
+		} else {
+			view.usernameTFLogin.getStyleClass().add("emailNotOk");
+		}
+	}
+	
+
 	
 	private void changeViewRegistration (Event e) {
 		view.changeViewRegistration();

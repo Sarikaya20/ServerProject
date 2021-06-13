@@ -421,8 +421,10 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.usernameTF.getStyleClass().remove("emailOk");
 		if (valid) {
 			view.usernameTF.getStyleClass().add("emailOk");
+			view.createUserButton.setDisable(false);
 		} else {
 			view.usernameTF.getStyleClass().add("emailNotOk");
+			view.createUserButton.setDisable(true);
 		}
 		
 		view.usernameTFLogin.getStyleClass().remove("emailNotOk");

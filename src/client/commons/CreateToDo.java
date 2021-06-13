@@ -7,7 +7,7 @@ import message.Result;
 import server.Client;
 import server.Prio;
 import server.ToDo;
-import server.ServerModel;
+
 
 public class CreateToDo extends Message {
 	private String token;

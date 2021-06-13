@@ -30,9 +30,9 @@ public class Client implements Sendable {
 		private int clientID;
 	
 	
-	public Client(Socket socket, ServerModel serverModel) {
+	public Client(Socket socket) {
 		this.socket = socket;
-		this.serverModel = serverModel;
+		
 		this.setLastUsage(Instant.now());
 		
 		this.clientID = clientCounter;

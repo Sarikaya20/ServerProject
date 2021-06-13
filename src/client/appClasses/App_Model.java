@@ -365,6 +365,7 @@ protected DateTimeFormatter LocalFormatter = DateTimeFormatter.ofPattern("dd.MM.
 		ToDo todo = new ToDo(todoTitle, Prio.valueOf(todoPriority), todoDescription, todoUser);
 		todo.setID(todoID);
 		myTreeToDoList.add(todo);
+		this.toDoList.add(todo);
 		return todo;
 	}
 	

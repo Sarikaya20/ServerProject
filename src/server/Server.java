@@ -11,7 +11,7 @@ import client.commons.Message;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Server {
+public class Server extends Thread{
 	
 	private static final Logger logger = Logger.getLogger("");
 	private volatile static boolean stop = false;

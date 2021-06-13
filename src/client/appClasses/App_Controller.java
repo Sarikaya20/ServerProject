@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import server.Prio;
+import server.ServerModel;
 import server.ToDo;
+import server.User;
+import server.Client;
 import client.JavaFX_App_Template;
 import client.ServiceLocator;
 import client.abstractClasses.Controller;
@@ -41,7 +44,13 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			String ipAddress = view.ipAddressTF.getText();
 			int port = Integer.parseInt(view.portTF.getText());
 			model.connect(ipAddress, port);
+			
+			//file
+			model.readSaveFileUser();
+			
 			view.backToLogin();
+			
+			
 			try {
 				model.connectionControl();
 			} catch (IOException e) {
@@ -93,6 +102,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		view.backButton.setOnAction(this::backToLogin);
 		
 		view.backBtn2.setOnAction(this::changetodoBp);
+		view.backButtonToDo.setOnAction(this::changetodoBp);
 
 		view.saveBtn.setOnAction(arg0 -> {
 			try {
@@ -105,6 +115,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		
 		view.todoList.setOnMouseClicked(this::showToDo);
 		
+		view.backRootButton.setOnAction(this::backToRoot);
 		
 		view.deleteBtn.setOnAction(this::deleteToDo);
 		
@@ -135,6 +146,12 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	
 	private void logOut(Event e) throws IOException {
 		model.logOut();
+		//files
+		model.writeSaveFileToDo();
+		
+		
+		
+		
 		view.backToLogin();
 	}
 	private void loginClient(Event e) throws IOException {
@@ -142,7 +159,16 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		String password = view.pwTFLogin.getText();
 		Boolean passwordCheck = model.login(userName, password);
 		if (passwordCheck == true) {
+			model.writeSaveFileUsers();
+			//read files
+			model.readSaveFileToDo();
 		view.changetodoBp();
+		
+		
+		
+		updateAllLists();
+		
+		
 		} else {
 			Alert errorAlert = new Alert(AlertType.ERROR);
 			errorAlert.setHeaderText("Wrong password");
@@ -155,6 +181,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 	
 	private void showToDo(MouseEvent mouseevent1) {
 		view.changeViewCreateToDOs();
+		
 		// disable
 		ToDo toDo = (ToDo) view.todoList.getSelectionModel().getSelectedItem();
 		this.updateView(toDo);
@@ -178,9 +205,15 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		
 		
 		
-		for(server.ToDo t : model.myTreeToDoList) {
+		for(ToDo t : model.myTreeToDoList) {
 			view.todoList.getItems().add(t);
 		}
+		
+		
+		for(ToDo t : model.getToDoList()) {
+			view.todoList.getItems().add(t);
+		}
+		
 		
 		
 	}
@@ -195,6 +228,8 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			//view.idTF.setText(String.valueOf(i));
 			view.idTF.setText(String.valueOf(toDo.getID()));
 			
+			//view.usernameTFTODO.setText(String.valueOf(toDo.getUser()));
+			//view.usernameTFTODO.setText(String.valueOf(model.to);
 			
 			
 		} else {
@@ -212,27 +247,59 @@ public class App_Controller extends Controller<App_Model, App_View> {
 
 	private void saveNewToDo(Event e) throws IOException {
 		String titel = view.txtTitle.getText();
-		Prio Prio = view.prioCB.getSelectionModel().getSelectedItem();
+		Prio priority = view.prioCB.getSelectionModel().getSelectedItem();
 		String description = view.txtaDescription.getText();
 		LocalDate dueDate = view.dueDP.getValue();
+		int ID;
+		String username;
 		
+		//ToDo todo = new ToDo(titel, priority, description, dueDate, username);
+		//model.myTreeToDoList.add(todo);
+		username = model.createToDo(titel, priority, description, dueDate);
 		
-		
-		model.myTreeToDoList.add(new ToDo(titel, Prio, description, dueDate));
-		System.out.println(dueDate);
+		//this is done in msg part
+		//model.myTreeToDoList.add(new ToDo(titel, Prio, description, dueDate));
+		//System.out.println(dueDate);
+		System.out.println("Received: Result|true");
 		
 	
 	
 		view.todoList.getItems().clear();
+		//ID = model.createToDo(titel, priority, description, dueDate);
+		/*for(ToDo t : ServerModel.getToDoList()) {
+			//updateAllLists();
+			/*if(t.getName().equals(view.usernameTFTODO.getText())){
+				view.todoList.getItems().add(t);
+			}*/
+		//	view.todoList.getItems().add(t);
+	//	}
+	
+		//ToDo todo = new ToDo(titel, priority, description, dueDate, username);
+		model.myTreeToDoList.add(new ToDo(titel, priority, description, dueDate, username));
 		for(ToDo t : model.myTreeToDoList) {
-			view.todoList.getItems().add(t);
+			//if (ID == t.getID()) {
+			updateAllLists();
 		}
+			/*
+		if (client.getToken().equals(token)) {
+			if(title.length()>= 1) {
+				if(localDate.compareTo(today) >= 0) {
+					String username = client.getName();
+					ToDo toDo = new ToDo(this.title, p, this.description,localDate, username);
+					//add it to the list
+					ServerModel.getToDoList().add(toDo);
+					result = true;
+				}
+				
+		}*/
+		
 		
 		
 	
 		view.changeMainView();
-		
-	}
+		}
+
+	
 	
 	//Methoden für Eingabeprüfung
 	
@@ -366,8 +433,12 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			view.usernameTFLogin.getStyleClass().add("emailNotOk");
 		}
 	}
+
 	
 
+	private void backToRoot(Event e) {
+		view.backToRoot();
+	}
 	
 	private void changeViewRegistration (Event e) {
 		view.changeViewRegistration();
@@ -392,9 +463,10 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		String name = view.usernameTF.getText();
 		String password = view.pwTF.getText();
 		if(password != null && password.length()>= 3) {
-			if (name != null && name.length() >= 3) {
-			Boolean login = model.createUser(name, password);
-			view.chageViewLogin();
+			if (name != null && App_Model.checkEmail(name)) {
+			model.createUser(name, password);
+			
+			view.changeViewLogin();
 			}
 		} else {
 			Alert errorAlert = new Alert(AlertType.ERROR);

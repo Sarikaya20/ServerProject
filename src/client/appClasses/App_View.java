@@ -326,7 +326,9 @@ public class App_View extends View<App_Model> {
 		this.idLabel = new Label("label.idLabel");
 		/*this.usernameTFTODO = new TextField();
 		this.usernameTFTODO.setEditable(false);
+		
 		*/
+		
 		
 		this.prioCB = new ChoiceBox <Prio>();
 		this.prioCB.getItems().addAll(Prio.values());

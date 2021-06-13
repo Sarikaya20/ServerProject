@@ -29,7 +29,7 @@ public class CreateLogin extends Message {
 			
 			boolean result = false;
 			if (username != null && username.length() >= 3) {
-				if (password != null && password.length() >= 3) { // lax password requirements
+				if (password != null && password.length() >= 3) { // quick input val
 					if (User.exists(username) == null) {
 						User newUser = new User(username, password, username);
 						User.add(newUser);

@@ -25,7 +25,7 @@ public class ServerModel {
 		return userList;
 	}
 
-	public  ArrayList<ToDoEntry> getToDoList() {
+	public  ArrayList<ToDo> getToDoList() {
 		return toDoList;
 	}
 

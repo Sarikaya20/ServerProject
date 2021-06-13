@@ -29,7 +29,6 @@ public class Client implements Sendable {
 		private static int clientCounter = 0;
 		private int clientID;
 	
-	
 	public Client(Socket socket) {
 		this.socket = socket;
 		

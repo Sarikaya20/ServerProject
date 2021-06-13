@@ -440,20 +440,6 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		}
 	}
 	
-	private void validateNewPassword () {
-		
-		boolean valid = false;
-		String password = view.newPWTF.getText();
-		
-		if(password != null && password.length()>= 3) {
-			
-			valid = true;
-		}
-		if (valid) {
-			view.createUserButton.setDisable(true);
-		}
-		
-	}
 
 	
 

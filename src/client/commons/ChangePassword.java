@@ -21,8 +21,8 @@ public class ChangePassword extends Message{
 	public void process(Client client) {
 		boolean result = false;
 		if (client.getToken().equals(token)) {
-			User User = client.getUser();
-			User.changePassword(password);
+			User user = client.getUser();
+			user.changePassword(password);
 			result = true;
 		}
 		client.send(new Result(result));

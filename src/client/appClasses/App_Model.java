@@ -214,6 +214,25 @@ protected DateTimeFormatter LocalFormatter = DateTimeFormatter.ofPattern("dd.MM.
 		}
 		
 	}
+	public boolean changePW(String newPW) throws IOException {
+		boolean status = false; 
+		String line = "ChangePassword|" + this.token + "|" + newPW;
+		socketOut.write(line + "\n");
+		socketOut.flush();
+		System.out.println("Sent: " + line);
+		String msg = null;
+		try {
+		msg = socketIn.readLine();
+		System.out.println("Received: " + msg);
+		String[] parts = msg.split("\\|");
+		if(parts[1].equalsIgnoreCase("true")) {
+			status = true;
+		}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		 return status;
+	}
 	public static Boolean checkEmail(String email) {
 		boolean valid = false;
 

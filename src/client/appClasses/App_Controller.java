@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import server.Prio;
-import server.ServerModel;
+
 import server.ToDo;
 import server.User;
 import server.Client;
@@ -113,6 +113,15 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			}
 		});
 		
+		view.pwchangeSaveButton.setOnAction(arg0 -> {
+			try {
+				changePassword(arg0);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		});
 		view.todoList.setOnMouseClicked(this::showToDo);
 		
 		view.backRootButton.setOnAction(this::backToRoot);
@@ -187,7 +196,11 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		this.updateView(toDo);
 		
 	}
-	
+	private void changePassword(Event e) throws IOException {
+		String newPW = view.newPWTF.getText();
+		model.changePW(newPW);
+		
+	}
 
 	
 	private void deleteToDo(Event e) {

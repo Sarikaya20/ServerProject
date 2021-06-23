@@ -1,7 +1,5 @@
 package client.commons;
 
-import java.util.ArrayList;
-
 import server.Client;
 
 public class Result extends Message {
@@ -23,10 +21,10 @@ public class Result extends Message {
 	/**
 	 * When a list is requested, the result includes all list values
 	 */
-	public Result(boolean result, ArrayList<String> list) {
+	/*public Result(boolean result, ArrayList<String> list) {
 		super(new String[] {"Result",Boolean.toString(result), list});		
 	}
-	
+	*/
 	
 
 	/**

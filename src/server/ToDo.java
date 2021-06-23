@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-
-import server.Prio;
+import client.commons.Message;
 
 public class ToDo implements Comparable <ToDo>, Serializable, Sendable {
 	
@@ -123,11 +122,11 @@ public class ToDo implements Comparable <ToDo>, Serializable, Sendable {
 		this.ID = toDoID;
 		// Correct highest ID if IDs are restored from files (may have gaps after
 		// deleting entries)
-		if (this.ID > highestID)
+		/*if (this.ID > highestID)
 			highestID = toDoID + 1;
 	}
 	private static int getNextID() {
-		return highestID++;
+		return highestID++;*/
 	}
 	@Override
 	public String getName() {
@@ -163,10 +162,6 @@ public class ToDo implements Comparable <ToDo>, Serializable, Sendable {
 			return false;
 	}
 
-	@Override
-	public void send(client.commons.Message msg) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

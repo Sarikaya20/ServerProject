@@ -8,14 +8,14 @@ import java.util.logging.Logger;
 
 import client.commons.Message;
 import client.commons.Result;
-import toDoServer.ServerModel;
+
 
 public class Client implements Sendable {
 	private Socket socket;
 	private String name;
-	User User = null;
+	User user = null;
 	private boolean clientReachable = true;
-	private ServerModel serverModel;
+
 	private Instant lastUsage;
 	private String token = null;
 	private static Logger logger = Logger.getLogger("");
@@ -61,7 +61,7 @@ public class Client implements Sendable {
 				} finally {
 					// When the client is no longer reachable, remove authentication and User
 					token = null;
-					User = null;
+					user = null;
 				}
 			}
 		};
@@ -101,7 +101,7 @@ public class Client implements Sendable {
 
 	public String getName() {
 		String name = null;
-		if (User != null) name = User.getUsername();
+		if (user != null) name = user.getUsername();
 		return name;
 	}
 
@@ -117,8 +117,8 @@ public class Client implements Sendable {
 		this.lastUsage = lastUsage;
 	}
 
-	public void setUser(User User) {
-		this.User = User;
+	public void setUser(User user) {
+		this.user = user;
 		
 	}
 
@@ -135,7 +135,7 @@ public class Client implements Sendable {
 	}
 
 	public User getUser() {
-		return User;
+		return user;
 	}
 	public String getClientIDAsText() {
 		return "Client ID #" + clientID;

@@ -330,8 +330,10 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		
 		if (valid) {
 			view.ipAddressTF.getStyleClass().add("ipAddressOk");
+			view.connectButton.setDisable(false);
 		} else {
 			view.ipAddressTF.getStyleClass().add("ipAddressNotOk");
+			view.connectButton.setDisable(true);
 		}
 	}
 	
@@ -359,8 +361,10 @@ public class App_Controller extends Controller<App_Model, App_View> {
 		
 		if (valid) {
 			view.portTF.getStyleClass().add("PortOk");
+			view.connectButton.setDisable(false);
 		} else {
 			view.portTF.getStyleClass().add("PortNotOk");
+			view.connectButton.setDisable(true);
 		}
 	}
 	
@@ -448,6 +452,7 @@ public class App_Controller extends Controller<App_Model, App_View> {
 			view.usernameTFLogin.getStyleClass().add("emailNotOk");
 		}
 	}
+	
 
 	
 
